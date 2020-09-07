@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meg Woodburn UNC Leaflet</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+
+   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+   crossorigin=""></script>
+
+   <script src = "./data/old_well_4326.geojson"></script>
+
+   <script src = "./data/hooker_4326.geojson"></script>
+
+   <script src = "./data/pool_4326.geojson"></script>
+
+</head>
+<body>
+
+    <div id="mapid"></div>
+    <style>
+        #mapid{ width: 900px; height: 500px;}
+    </style>
+
+    <script>
+        var map = L.map('mapid').setView([35.908340, -79.046163], 15.5);
+        L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {}).addTo(map)
+        
+        L.geoJSON(kenan).addTo(map)
+
+       var kenanIcon = L.icon({
+        iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Football_Icon.svg/1203px-Football_Icon.svg.png',
+        iconSize: [50,50],
+        popupAnchor: [0,0]
+       });
+
+       var stadiumPopup = "Kenan Stadium<br/><img src='https://chapelboromedia.s3.amazonaws.com/uploads/2019/07/17141334/Kenan-Stadium-2-1200x640.png'width='100px'/>";
+
+       L.geoJSON(kenan, {
+        pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {icon: kenanIcon});}})
+        .bindPopup(stadiumPopup)
+        .addTo(map);
+        
+        L.geoJSON(hooker).addTo(map)  
+        
+        var ultimateIcon = L.icon({
+        iconUrl: 'https://cdn.shopify.com/s/files/1/0063/8389/4580/products/DCULT-Ustar-WHT_zpsklsm695s_150x@2x.png?v=1571748352',
+        iconSize: [50,50],
+        popupAnchor: [0,0]
+       });       
+
+       var fieldsPopup = "Hooker Fields<br/><img src='https://jmthompson.com/wp-content/uploads/2018/11/DJI_0019.jpg'width='100px'/>";       
+    
+       L.geoJSON(hooker, {
+        pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {icon: ultimateIcon});}})
+        .bindPopup(fieldsPopup)
+        .addTo(map);
+
+        L.geoJSON(pool).addTo(map)
+
+        var swimIcon = L.icon({
+        iconUrl: 'https://www.pinclipart.com/picdir/middle/19-198929_swimming-clipart-google-emoji-png-download.png',
+        iconSize: [50,50],
+        popupAnchor: [0,0]
+       });             
+       
+       var bowmanPopup = "Bowman Gray Memorial Pool<br/><img src='https://campusrec.unc.edu/wp-content/uploads/2015/08/IMG_5322-585x390.jpg'width='100px'/>";  
+
+       L.geoJSON(pool, {
+        pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {icon: swimIcon});}})
+        .bindPopup(bowmanPopup)
+        .addTo(map);      
+
+    </script>
+
+    
+</body>
+</html>
