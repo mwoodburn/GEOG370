@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leaflet Preview</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+   integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+   crossorigin=""></script>
+  <style type="text/css">
+    body {
+       margin: 0;
+       padding: 0;
+    }
+    html, body, #map{
+       width: 100%;
+       height: 100%;
+    }
+  </style>
+
+<script src = "./raleighpointdata/flowering_cherries_4326.geojson"></script>
+<script src = "./raleighpointdata/bridge_4326.geojson"></script>
+<script src = "./raleighpointdata/peace_4326.geojson"></script>
+
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+      var map = L.map('map').setView([35.77648231200908, -78.64072989317991], 14.0);
+
+      L.geoJSON(capitol).addTo(map)
+
+      var capitolIcon = L.icon({
+       iconUrl: 'https://1igc0ojossa412h1e3ek8d1w-wpengine.netdna-ssl.com/wp-content/uploads/2017/11/DET-NC.jpg',
+       iconSize: [40,40],
+       popupAnchor: [0,0]
+      });
+
+      var buildingPopup = "NC Capitol Building<br/><img src='https://d3m7xw68ay40x8.cloudfront.net/assets/2015/07/06151956/nc-capitol.jpg'width='100px'/>The North Carolina State Capitol was completed in 1840 to hold the state legislature after the last state house was destroyed in a fire. The general assembly met there until 1963, but the building still stands on its square with grass, paths, and statues.";
+
+      L.geoJSON(capitol, {
+       pointToLayer: function (feature, latlng) {
+       return L.marker(latlng, {icon: capitolIcon});}})
+       .bindPopup(buildingPopup)
+       .addTo(map);
+
+       L.geoJSON(bridge).addTo(map)
+
+       var bridgeIcon = L.icon({
+       iconUrl: 'https://www.pngitem.com/pimgs/m/14-142937_train-rail-transport-steam-locomotive-clip-art-steam.png',
+       iconSize: [40,40],
+       popupAnchor: [0,0]
+      });
+
+      var boylanPopup = "Boylan Bridge and Railroads<br/><img src='https://media-cdn.tripadvisor.com/media/photo-s/13/4c/60/e1/photo1jpg.jpg'width='100px'/>The North Carolina Railroad, incorporated in 1849, intersects with the CSX railroad in Raleigh. The Boylan Bridge was originally built of wood as one of the first bridges over the railroad before being replaced with steel in 1913. In 2018 a new train station, Union Station, was completed in view of the bridge to serve the Southeast High Speed Rail Corridor. ";
+
+      L.geoJSON(bridge, {
+       pointToLayer: function (feature, latlng) {
+       return L.marker(latlng, {icon: bridgeIcon});}})
+       .bindPopup(boylanPopup)
+       .addTo(map);
+
+       L.geoJSON(peace).addTo(map)
+
+       var peaceIcon = L.icon({
+       iconUrl: 'https://teenlife.s3.amazonaws.com/media/uploads/listings/william-peace-university/C9lIzuQSixse.png',
+       iconSize: [40,40],
+       popupAnchor: [0,0]
+      });
+
+      var collegePopup = "William Peace University<br/><img src=' https://i.pinimg.com/originals/ab/2e/6a/ab2e6af2791b10f74e2c6bb08bd0c63f.jpg'width='100px'/>Now known as William Peace University, the Peace Institute was founded in 1857 as a women’s college. It became coeducational in 2012, and changed its name in the same year to William Peace University.";
+
+      L.geoJSON(peace, {
+       pointToLayer: function (feature, latlng) {
+       return L.marker(latlng, {icon: peaceIcon});}})
+       .bindPopup(collegePopup)
+       .addTo(map);
+
+
+      var OSM = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+       maxZoom: 19,
+       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+      var daPhoto = L.tileLayer('./raleighexample/{z}/{x}/{y}.png', {
+        minZoom: 12,
+        maxZoom: 16,
+        tms: false,
+        attribution: 'USGS'
+      })
+
+      var daTiles = {
+        "Open Street Map": OSM,
+        "Raleigh Photo": daPhoto
+      }
+
+      var daVectors = {
+        "William Peace University":L.geoJSON(peace),
+        "Boylan Bridge and Railroads":L.geoJSON(bridge),
+        "State Capitol":L.geoJSON(capitol)
+      }
+
+      L.control.layers(daTiles, daVectors).addTo(map);
+    
+    
+
+  </script>
+</body>
+</html>
